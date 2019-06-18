@@ -3,6 +3,7 @@ package com.lambdaschool.school.controller;
 import com.lambdaschool.school.model.Course;
 import com.lambdaschool.school.service.CourseService;
 import com.lambdaschool.school.view.CountStudentsInCourses;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,9 +32,18 @@ public class CourseController
     }
 
     @DeleteMapping("/courses/{courseid}")
-    public ResponseEntity<?> deleteCourseById(@PathVariable long courseid)
+    public ResponseEntity<?> deleteCourseById(@ApiParam(value = "course id", required = true, example = "1", type = "integer")
+            @PathVariable long courseid)
     {
         courseService.delete(courseid);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/courses/course/add")
+    public ResponseEntity<?> addNewCourse(@RequestBody Course course) {
+
+        Course newCourse = courseService.save(course);
+
+        return new ResponseEntity<>(newCourse, HttpStatus.OK);
     }
 }
