@@ -1,20 +1,26 @@
 package com.lambdaschool.school.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+@ApiModel(value = "Student", description = "A student")
 @Entity
 @Table(name = "student")
 public class Student
 {
+    @ApiModelProperty(value = "Primary key", required = true, example = "1")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long studid;
 
+    @Size(min = 2, max = 255, message = "Must be 2 to 255 characters long")
     private String studname;
 
     @ManyToMany
